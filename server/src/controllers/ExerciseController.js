@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const {
   Exercise,
 } = require('../models');
@@ -68,7 +70,9 @@ module.exports = {
       const {
         id: exerciseID,
       } = req.params;
-      const exercise = await Exercise.findById(exerciseID);
+      const exercise = await Exercise.findById({
+        _id: exerciseID,
+      });
       if (exercise) {
         res.status(200).send({
           err: false,
@@ -136,7 +140,10 @@ module.exports = {
       const {
         id: exerciseID,
       } = req.params;
-      const deleteExercise = await Exercise.findByIdAndDelete(exerciseID);
+      console.log(exerciseID);
+      const deleteExercise = await Exercise.findByIdAndDelete({
+        _id: mongoose.Types.ObjectId(exerciseID),
+      });
       if (deleteExercise) {
         res.status(200).send({
           err: false,

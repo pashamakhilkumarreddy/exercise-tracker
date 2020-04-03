@@ -3,7 +3,7 @@ const {
 } = require('../models');
 
 module.exports = {
-  async getUser(req, res) {
+  async getUsers(req, res) {
     try {
       const users = await User.find();
       if (users) {
@@ -14,7 +14,6 @@ module.exports = {
         });
         return;
       }
-
       res.status(400).send({
         err: true,
         message: 'Unable to get users',
