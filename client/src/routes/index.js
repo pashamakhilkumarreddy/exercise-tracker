@@ -11,7 +11,7 @@ import {
 export default () =>
   <Switch>
     <Route path="/" exact component={ExerciseList} />
-    <Route path="/edit/:id" exact component={EditExercise} />
+    <Route path="/exercises/:id" exact component={EditExercise} />
     <Route path="/create" exact component={CreateExercise} />
     <Route path="/user" exact component={CreateUser} />
   </Switch>

@@ -1,0 +1,6 @@
+.message.is-info {
+  position: fixed;
+  right: 0.2vw;
+  top: 7vh;
+  width: auto;
+}

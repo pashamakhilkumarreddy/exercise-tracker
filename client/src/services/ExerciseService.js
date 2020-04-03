@@ -6,5 +6,14 @@ export default {
   },
   get() {
     return Api().get('/exercises');
+  },
+  getExercise(id) {
+    return Api().get(`/exercises/${id}`);
+  },
+  put(id, exercise) {
+    return Api().put(`/exercises/update/${id}`, exercise);
+  },
+  delete(id) {
+    return Api().delete(`/exercises/${id}`);
   }
 }

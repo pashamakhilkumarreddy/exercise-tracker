@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Exercise = ({exercise}) => {
+const Exercise = ({exercise, deleteExercise}) => {
   return (
     <tr>
       <td>{exercise._id}</td>
@@ -10,8 +11,10 @@ const Exercise = ({exercise}) => {
       <td>{exercise.date}</td>
       <td>
         <span className="buttons action-buttons">
-          <button className="button is-small is-primary is-light">Update</button>
-          <button className="button is-small is-link is-danger">Delete</button>
+          <Link to={`/exercises/${exercise._id}`}>
+            <button className="button is-small is-primary is-light">Update</button>
+          </Link>
+          <button className="button is-small is-link is-danger" onClick={e => deleteExercise(e, exercise._id)}>Delete</button>
         </span>
       </td>
     </tr>

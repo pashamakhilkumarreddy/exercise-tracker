@@ -1,12 +1,15 @@
 import React, { Fragment, Component } from 'react';
 import Exercise from './Exercise';
-import ExerciseService from '../../services/ExerciseService'
+import ExerciseService from '../../services/ExerciseService';
+import './exercise.css';
 
 export default class ExerciseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exercises: []
+      exercises: [],
+      showMessage: false,
+      message: ''
     };
   }
 
@@ -19,15 +22,36 @@ export default class ExerciseList extends Component {
           exercises
         });
       }
-      console.log(exercises);
     } catch(err) {
       console.log(err);
       console.error(err.response.data.message);
     }
   }
 
-  deleteExercise = (e) => {
-
+  deleteExercise = async (e, id) => {
+    try {
+      const isProductDeleted = await ExerciseService.delete(id.toString());
+      const updatedExercises = this.state.exercises.filter(exercise => exercise._id !== id);
+      this.setState({
+        exercises: updatedExercises
+      });
+      const { data, status } = isProductDeleted;
+      if (data && status === 200) {
+        this.setState({
+          showMessage: true,
+          message: 'Succesfully deleted the exercise'
+        })
+      }
+      setTimeout(() => {
+        console.log(`I ran`);
+        this.setState({
+          showMessage: false
+        });
+      }, 1000);
+    } catch (err) {
+      console.log(err);
+      console.error(err.response.data.error);
+    }
   }
 
   render() {
@@ -48,7 +72,7 @@ export default class ExerciseList extends Component {
               </thead>
               <tbody>
                 {
-                  this.state.exercises.length ? (this.state.exercises.map((exercise, index) => <Exercise key={index.toString()} exercise = {exercise} /> )): 
+                  this.state.exercises.length ? (this.state.exercises.map((exercise, index) => <Exercise key={index.toString()} exercise = {exercise} deleteExercise={this.deleteExercise} /> )): 
                   <tr>
                     <td colSpan="5" className={`has-text-centered is-size-4`}>No Exercises found</td>
                   </tr>
@@ -57,6 +81,13 @@ export default class ExerciseList extends Component {
             </table>
           </div>
         </div>
+        {
+          this.state.showMessage ? (<article className={`message is-info`}>
+            <div className={`message-body`}>
+              {this.state.message}
+            </div>
+          </article>): null
+        }
       </Fragment>
     );
   }
